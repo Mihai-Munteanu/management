@@ -1,0 +1,106 @@
+# This file is only used to test only this service.
+# To add the all functionality, you need configure the main docker-compose.yml found in the root folder.
+
+version: "3"
+
+#################################################### DEFAULT VALUES ####################################################
+x-environment: &environment
+    DOCKER: 1
+    REDIS_HOST: management-redis
+    QUEUE_CONNECTION: redis
+    DB_HOST: management-mysql
+    DB_DATABASE: management
+    DB_USERNAME: root
+    DB_PASSWORD: secret
+    SERVICE_IDENTIFIER: stockpile-management-service
+    RABBITMQ_HOST: rabbitmq
+    RABBITMQ_VHOST: stockpile-internal
+    RABBITMQ_USERNAME: alfred
+    RABBITMQ_PASSWORD: secret
+x-management: &management
+    build:
+        context: .
+        args:
+            ENV: dev
+    volumes:
+        - ./:/var/www
+    stdin_open: true
+    tty: true
+    depends_on:
+        - management-redis
+#################################################### DEFAULT VALUES ####################################################
+
+services:
+    management:
+        <<: *management
+        hostname: management
+        environment:
+            <<: *environment
+        ports:
+            - "8084:80"
+            # - "5173:5173"
+        networks:
+            - sp_core-common-services-network
+            - default
+
+    management-mysql:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: management
+            MYSQL_USER: app
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: secret
+        ports:
+            - "9002:3306"
+        volumes:
+            - management_mysql_data:/var/lib/mysql
+
+    management-redis:
+        image: redis
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 1s
+            timeout: 3s
+            retries: 30
+        volumes:
+            - management_redis_data:/data
+
+volumes:
+    management_redis_data:
+    management_mysql_data:
+
+networks:
+    sp_core-common-services-network:
+        external: true
+    default:
+
+    # mysql:
+    #     image: mysql
+    #     environment:
+    #         MYSQL_DATABASE: management
+    #         MYSQL_USER: app
+    #         MYSQL_PASSWORD: secret
+    #         MYSQL_ROOT_PASSWORD: secret
+    #     ports:
+    #         - "3323:3306"
+    #     volumes:
+    #         - management_mysql_data:/var/lib/mysql
+    # redis:
+    #     image: redis
+    #     healthcheck:
+    #         test: ["CMD", "redis-cli", "ping"]
+    #         interval: 1s
+    #         timeout: 3s
+    #         retries: 30
+# volumes:
+#     management_mysql_data:
+#    rabbitmq:
+#        image: bitnami/rabbitmq
+#        environment:
+#            RABBITMQ_VHOST: stockpile-internal
+#            RABBITMQ_USERNAME: alfred
+#            RABBITMQ_PASSWORD: secret
+#        ports:
+#            - "15672:15672"
+
