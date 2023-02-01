@@ -129,7 +129,7 @@ abstract class TableComponent extends Component
     public function init()
     {
         $this->allTableElements = [
-            'is primary', 'id', 'name', 'created_at'
+            'is primary', 'name', 'created_at'
         ];
     }
 }

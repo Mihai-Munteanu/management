@@ -2,9 +2,9 @@
     <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
         <x-input.switch field="'item.is_primary'" wire:model.debounce.500ms="is_primary" type="checkbox" value="1" id="item.is_primary" />
     </td>
-    <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
+    {{-- <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
         {{$item['id']}}
-    </td>
+    </td> --}}
     <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
         <div class="flex flex-col">
             @if($isEdit)
