@@ -26,6 +26,7 @@ class MultipleItemsSelectApi extends Component
         'reload' => '$refresh',
         'removeSelectedMergeFromItems',
         'resetMerge' => 'resetSelectedMergeFromItems',
+        'confirmModal',
     ];
 
     public function mount()
@@ -124,7 +125,12 @@ class MultipleItemsSelectApi extends Component
             ]);
     }
 
-    public function makeItPrimary($itemId)
+    public function cancelModal()
+    {
+        $this->emit('');
+    }
+
+    public function confirmModal($itemId)
     {
         $response =  Http::timeout(120)
             ->put(env("ORCHESTRATOR_URL") . "/management/{$this->tableApi}/merge", [
@@ -144,5 +150,15 @@ class MultipleItemsSelectApi extends Component
                 'position' => 'center',
             ]);
         }
+    }
+
+    public function makeItPrimary($item)
+    {
+        $this->emit('openModal', 'components.modal.simple-confirmation-modal-with-id', [
+            "title" => " Would you like to mark {$item['name']} as Primary element ?",
+            "body" => "",
+            "itemId" => $item['id'],
+        ]);
+        return;
     }
 }

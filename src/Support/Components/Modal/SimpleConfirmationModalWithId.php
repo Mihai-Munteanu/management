@@ -22,14 +22,12 @@ class SimpleConfirmationModalWithId extends ModalComponent
 
     public function confirm()
     {
-        info('confirm');
         $this->emit('confirmModal', $this->itemId);
         $this->closeModal();
     }
 
     public function cancel()
     {
-        info('cancel');
         $this->emit('cancelModal');
         $this->closeModal();
     }

@@ -44,7 +44,7 @@
                                             </x-tag-button-add>
                                         </div>
                                         <div class="w-full flex justify-end">
-                                            <x-tooltip message="make it primary"> <button wire:click="makeItPrimary({{$item['id']}})"><i class="fas fa-thumbtack"></i></butto>
+                                            <x-tooltip message="make it primary"> <button wire:click="makeItPrimary({{collect($item)}})"><i class="fas fa-thumbtack"></i></butto>
                                             </x-tooltip>
 
                                         </div>
