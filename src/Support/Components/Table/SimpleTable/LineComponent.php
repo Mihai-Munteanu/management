@@ -43,10 +43,10 @@ class LineComponent extends Component
 
     public function updatedItemIsPrimary($value)
     {
-        info('value: ' . $value);
+        // info('value: ' . $value);
         if ($value === false) {
 
-            info('value2: ' . $value);
+            // info('value2: ' . $value);
 
             $this->emit('openModal', 'components.modal.simple-confirmation-modal-with-id', [
                 "title" => " Would you like to mark it as NON primary element ?",
@@ -57,7 +57,7 @@ class LineComponent extends Component
             return;
         }
 
-        info('value3: ' . $value);
+        // info('value3: ' . $value);
 
         $response = $this->apiCallIsPrimary(true);
 

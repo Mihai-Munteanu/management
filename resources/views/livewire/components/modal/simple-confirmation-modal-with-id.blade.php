@@ -13,7 +13,7 @@
 
     <x-slot name="buttons">
         <div class="flex justify-between w-full px-10">
-            <x-button bgColor="bg-gray-200" wire:click='cancel'>Cancel</x-button>
+            <x-button type="button" bgColor="bg-gray-200" wire:click='cancel'>Cancel</x-button>
 
             <x-button bgColor="bg-blue-200" type="submit">Confirm</x-button>
         </div>
